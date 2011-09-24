@@ -34,6 +34,7 @@ $(document).ready(function() {
     init: function() {
       this.texture_manager.add_texture('player','sprites/player.png');
       this.texture_manager.add_texture('enemy','sprites/child.png');
+      this.texture_manager.add_texture('enemy_spike','sprites/evil_child.png');
       this.event_manager.register('move_left', KEYBOARD, MINUS_A);
       this.event_manager.register('move_right', KEYBOARD, MINUS_D);
       this.event_manager.register('move_up', KEYBOARD, MINUS_W);

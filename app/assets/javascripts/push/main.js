@@ -43,16 +43,25 @@ function Main(ethon) {
         remove = i;
       }
       if(collision) {
-        this.score += 10;
+        if(this.enemies[i].spike) {
+          this.score -= 10;
+          this.ethon.player.health -= 1;
+        }
+        else {
+          this.score += 10;
+        }
       }
     }
     if(remove != null) {
+      if(!collision && this.enemies[remove].spike) {
+        this.score += 10;
+      }
       this.enemies.splice(remove,1);
     }
 
     this.ethon.event_manager.update('spawn_enemy',dt);
     if(this.ethon.event_manager.happens('spawn_enemy')) {
-      this.enemies.push(new Enemy(rand(30,600),-200));
+      this.enemies.push(new Enemy(rand(30,600),-200, rand(1,1000)%2 == 0));
     }
   };
 };

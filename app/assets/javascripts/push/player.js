@@ -13,6 +13,8 @@ function Player(x,y) {
 
   this.ethon = Ethon.getInstance();
   this.state = PLAYER_IDLE;
+  this.health = 3;
+  this.max_health = 3;
 
   this.sprites = new Array();
   this.sprites[PLAYER_IDLE] = new Sprite('player',this.w,this.h,0,0,2,2);
@@ -23,6 +25,14 @@ function Player(x,y) {
     // Draw player
     this.sprites[this.state].draw(this.pos);
     Player.prototype.draw.call(this);
+
+    for(var i = 0; i < this.max_health; i++) {
+      this.ethon.render_manager.basicShape(CIRCLE_EMPTY,new Vector2D(570+i*25,620), 10,10, 10);
+    }
+
+    for(var i = 0; i < this.health; i++) {
+      this.ethon.render_manager.basicShape(CIRCLE,new Vector2D(570+i*25,620), 10,10, 10, '#ff0000');
+    }
   };
 
   this.update = function(dt) {
