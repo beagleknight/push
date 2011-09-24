@@ -11,6 +11,11 @@ function Vector2D(x,y) {
     this.y += v.y;
   };
 
+  this.multScalar = function(s) {
+    this.x *= s;
+    this.y *= s;
+  };
+
   this.module = function() {
     return Math.sqrt((this.x*this.x)+(this.y*this.y));
   };

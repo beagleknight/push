@@ -22,13 +22,13 @@ function Object2D(x,y,w,h) {
     }
   };
 
-  this.update = function() {
+  this.update = function(dt) {
     this.pos.sum(this.vel);
     if(this.collideWithCanvas) {
       if(this.pos.x+this.w > 700 || this.pos.x < 0)
-        this.vel.x = -this.vel.x;
+        this.vel.x = -this.vel.x*dt;
       if(this.pos.y+this.h > 700 || this.pos.y < 0)
-        this.vel.y = -this.vel.y;
+        this.vel.y = -this.vel.y*dt;
     }
   };
 };

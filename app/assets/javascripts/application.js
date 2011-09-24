@@ -21,36 +21,25 @@
 //= require ethon/texture_manager
 //= require ethon/button
 //= require ethon/ethon
+
+//= require push/main
+//= require push/player
+
 //= require_self
 
 $(document).ready(function() {
   var game = $('#game').ethon({
-    path: 'javascripts/push/',
+    path: '/images/push/',
     init: function() {
-      //your code goes here
-      this.box = new Object2D(10,10,50,50);
-      this.box.vel = new Vector2D(2,5);
+      this.texture_manager.add_texture('player','sprites/player.png');
+      this.event_manager.register('move_left', KEYBOARD, MINUS_A);
+      this.event_manager.register('move_right', KEYBOARD, MINUS_D);
+      this.event_manager.register('move_up', KEYBOARD, MINUS_W);
+      this.event_manager.register('move_down', KEYBOARD, MINUS_S);
 
+      this.player = new Player(350,500);
       //main scene 
-      this.scene_manager.add_scene('main', {
-          init: function() {
-            this.box = new Object2D(100,100,25,25);
-            this.box.vel = new Vector2D(4,10);
-          },
-          draw: function() { //render function
-            //draw global game box
-            this.ethon.box.draw();
-            // draw local scene box
-            this.box.draw();
-          },
-          update: function(dt) { //update function
-            //update global game box
-            this.ethon.box.update();
-            //update local scene box
-            this.box.update();
-          }
-        }
-      );
+      this.scene_manager.add_scene('main', new Main());
       // set active scene
       this.scene_manager.set_active('main');
     }
