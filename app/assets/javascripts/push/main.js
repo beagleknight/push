@@ -7,7 +7,7 @@ function Main(ethon) {
 
   this.init = function() {
     this.ethon.texture_manager.add_texture('background','sprites/background.png');
-    this.background = new TileMap("background",40,20,32,32,0,3);
+    this.background = new TileMap("background",40,20,32,32,0,64);
     for(var i = 0; i < this.background.rows; i++) {
       for(var j = 0; j < this.background.cols; j++) {
         this.background.map[i][j] = rand(0,7); 
