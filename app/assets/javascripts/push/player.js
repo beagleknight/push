@@ -9,6 +9,7 @@ Player.prototype = new Object2D();
 
 function Player(x,y) {
   Object2D.call(this,x,y,96,136);
+  this.drawBB = true;
 
   this.ethon = Ethon.getInstance();
   this.state = PLAYER_IDLE;
@@ -21,6 +22,7 @@ function Player(x,y) {
   this.draw = function() {
     // Draw player
     this.sprites[this.state].draw(this.pos);
+    Player.prototype.draw.call(this);
   };
 
   this.update = function(dt) {
@@ -40,7 +42,8 @@ function Player(x,y) {
       this.vel = new Vector2D(0,this.max_speed);
     }
     else {
-      this.vel.multScalar(0.8);
+      //this.vel.multScalar(0.8);
+      this.vel.multScalar(0.7);
     }
 
     Player.prototype.update.call(this,dt);

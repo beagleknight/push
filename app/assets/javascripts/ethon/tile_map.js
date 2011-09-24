@@ -52,7 +52,7 @@ function TileMap(texture_id, rows, cols, w, h, step_x, step_y) {
 
   this.update = function(dt) {
     var canvas_height = this.ethon.render_manager.canvas_height;
-    this.offset_y = this.offset_y+this.step_y*dt; 
+    this.offset_y = this.offset_y+this.step_y; 
 
     if(this.step < 0) {
       if(this.offset_y < -this.canvas_outside) {

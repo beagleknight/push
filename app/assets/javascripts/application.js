@@ -24,6 +24,7 @@
 
 //= require push/main
 //= require push/player
+//= require push/enemy
 
 //= require_self
 
@@ -32,12 +33,14 @@ $(document).ready(function() {
     path: '/images/push/',
     init: function() {
       this.texture_manager.add_texture('player','sprites/player.png');
+      this.texture_manager.add_texture('enemy','sprites/child.png');
       this.event_manager.register('move_left', KEYBOARD, MINUS_A);
       this.event_manager.register('move_right', KEYBOARD, MINUS_D);
       this.event_manager.register('move_up', KEYBOARD, MINUS_W);
       this.event_manager.register('move_down', KEYBOARD, MINUS_S);
 
       this.player = new Player(350,500);
+
       //main scene 
       this.scene_manager.add_scene('main', new Main());
       // set active scene
