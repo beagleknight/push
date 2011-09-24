@@ -35,15 +35,44 @@ $(document).ready(function() {
       this.texture_manager.add_texture('player','sprites/player.png');
       this.texture_manager.add_texture('enemy','sprites/child.png');
       this.texture_manager.add_texture('enemy_spike','sprites/evil_child.png');
+
       this.event_manager.register('move_left', KEYBOARD, MINUS_A);
       this.event_manager.register('move_right', KEYBOARD, MINUS_D);
       this.event_manager.register('move_up', KEYBOARD, MINUS_W);
       this.event_manager.register('move_down', KEYBOARD, MINUS_S);
 
+      this.event_manager.register('pause', KEYBOARD, ESCAPE);
+
       this.player = new Player(350,500);
+      this.score = 0;
 
       //main scene 
       this.scene_manager.add_scene('main', new Main());
+      //game over scene
+      this.scene_manager.add_scene('game_over', {
+        init: function() {
+        },
+        draw: function() {
+          this.ethon.render_manager.drawText("Game over",280,300,'#000000');
+          this.ethon.render_manager.drawText(int_to_string(this.ethon.score,6),280,320,'#000000');
+        },
+        update: function(dt) {
+        }
+      });
+      //pause scene
+      this.scene_manager.add_scene('pause', {
+        init: function() {
+        },
+        draw: function() {
+          this.ethon.render_manager.drawText("- PAUSE -",280,300,'#000000');
+        },
+        update: function(dt) {
+          if(this.ethon.event_manager.happens('pause')) {
+            this.ethon.scene_manager.set_active('main');
+          }
+        }
+      });
+
       // set active scene
       this.scene_manager.set_active('main');
     }

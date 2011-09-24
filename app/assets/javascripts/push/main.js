@@ -15,7 +15,6 @@ function Main(ethon) {
     }
     this.enemies = new Array();
     this.ethon.event_manager.register('spawn_enemy', TIMED, 3);
-    this.score = 0;
   };
   
   this.draw = function() { //render function
@@ -27,7 +26,7 @@ function Main(ethon) {
 
     // Draw score
     this.ethon.render_manager.basicShape(BOX_FILLED, new Vector2D(500,5), 130, 20,'#000000', '#000000');
-    this.ethon.render_manager.drawText(int_to_string(this.score,6),555,20,'#ffffff');
+    this.ethon.render_manager.drawText(int_to_string(this.ethon.score,6),555,20,'#ffffff');
     this.ethon.render_manager.drawText("Score: ",505,20,'#ffffff');
   };
 
@@ -44,17 +43,20 @@ function Main(ethon) {
       }
       if(collision) {
         if(this.enemies[i].spike) {
-          this.score -= 10;
+          this.ethon.score -= 10;
           this.ethon.player.health -= 1;
+          if(this.ethon.player.health <= 0) {
+            this.ethon.scene_manager.set_active('game_over');
+          }
         }
         else {
-          this.score += 10;
+          this.ethon.score += 10;
         }
       }
     }
     if(remove != null) {
       if(!collision && this.enemies[remove].spike) {
-        this.score += 10;
+        this.ethon.score += 10;
       }
       this.enemies.splice(remove,1);
     }
@@ -62,6 +64,10 @@ function Main(ethon) {
     this.ethon.event_manager.update('spawn_enemy',dt);
     if(this.ethon.event_manager.happens('spawn_enemy')) {
       this.enemies.push(new Enemy(rand(30,600),-200, rand(1,1000)%2 == 0));
+    }
+
+    if(this.ethon.event_manager.happens('pause')) {
+      this.ethon.scene_manager.set_active('pause');
     }
   };
 };
