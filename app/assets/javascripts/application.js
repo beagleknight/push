@@ -35,8 +35,8 @@ $(document).ready(function() {
     init: function() {
       this.texture_manager.add_texture('player','sprites/player.png');
       this.texture_manager.add_texture('player_hurt','sprites/player_hurt.png');
-      this.texture_manager.add_texture('enemy','sprites/child.png');
-      this.texture_manager.add_texture('enemy_spike','sprites/evil_child.png');
+      this.texture_manager.add_texture('enemy','sprites/enemy.png');
+      this.texture_manager.add_texture('enemy_spike','sprites/enemy_spike.png');
       this.texture_manager.add_texture('obstacle','sprites/obstacle.png');
 
       this.event_manager.register('move_left', KEYBOARD, MINUS_A);

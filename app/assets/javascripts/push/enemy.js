@@ -9,8 +9,6 @@ var ENEMY_HURT = 1;
 Enemy.prototype = new Object2D();
 
 function Enemy(x,y,spike,speed) {
-  Object2D.call(this,x,y, 75.1, 93);
-  this.collideWithCanvas = false;
   this.state = ENEMY_IDLE;
   this.ethon = Ethon.getInstance();
 
@@ -22,14 +20,17 @@ function Enemy(x,y,spike,speed) {
   this.hurt_time = 50;
 
   if(spike) {
-    this.sprites[ENEMY_IDLE] = new Sprite('enemy_spike',this.w,this.h,0,0,2,2);
-    this.sprites[ENEMY_HURT] = new Sprite('enemy_spike',this.w,this.h,0,0,2,2);
+    Object2D.call(this,x,y, 28, 32);
+    this.sprites[ENEMY_IDLE] = new Sprite('enemy_spike',this.w,this.h,0,0,4,2);
+    this.sprites[ENEMY_HURT] = new Sprite('enemy_spike',this.w,this.h,0,0,4,2);
   }
   else {
-    this.sprites[ENEMY_IDLE] = new Sprite('enemy',this.w,this.h,0,0,2,2);
-    this.sprites[ENEMY_HURT] = new Sprite('enemy',this.w,this.h,0,0,2,2);
+    Object2D.call(this,x,y, 32, 32);
+    this.sprites[ENEMY_IDLE] = new Sprite('enemy',this.w,this.h,0,0,4,2);
+    this.sprites[ENEMY_HURT] = new Sprite('enemy',this.w,this.h,0,0,4,2);
   }
 
+  this.collideWithCanvas = false;
   this.vel = new Vector2D(0,speed);
 
   this.draw = function() {
