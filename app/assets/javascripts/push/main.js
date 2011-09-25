@@ -72,17 +72,11 @@ function Main(ethon) {
     collision = null;
     for(var i = 0; i < this.enemies.length; i++) {
       collision = cm.sprite_collision(this.ethon.player, this.enemies[i]);
-      if(this.enemies[i].update(dt) || collision) {
-        remove = i;
-      }
       if(collision) {
-        if(this.enemies[i].spike) {
-          this.ethon.player.hurt();
-        }
-        else {
-          this.ethon.score += 10;
-          this.ethon.time += 2;
-        }
+        this.enemies[i].hurt();
+      }
+      if(this.enemies[i].update(dt)) {
+        remove = i;
       }
     }
     if(remove != null) {
@@ -108,16 +102,19 @@ function Main(ethon) {
       this.obstacles.splice(remove,1);
     }
 
-    // Spawn enemies
-    this.ethon.event_manager.update('spawn_enemy',dt);
-    if(this.ethon.event_manager.happens('spawn_enemy')) {
-      this.enemies.push(new Enemy(rand(30,600),-200, rand(1,1000)%2 == 0, this.levels[this.level].speed));
-    }
+    // If player gets damage don't spawn objects
+    if(this.ethon.player.state === PLAYER_IDLE) {
+      // Spawn enemies
+      this.ethon.event_manager.update('spawn_enemy',dt);
+      if(this.ethon.event_manager.happens('spawn_enemy')) {
+        this.enemies.push(new Enemy(rand(30,600),-200, rand(1,1000)%2 == 0, this.levels[this.level].speed));
+      }
 
-    // Spawn obstacles
-    this.ethon.event_manager.update('spawn_obstacle',dt);
-    if(this.ethon.event_manager.happens('spawn_obstacle')) {
-      this.obstacles.push(new Obstacle(rand(30,600),-200, this.levels[this.level].speed));
+      // Spawn obstacles
+      this.ethon.event_manager.update('spawn_obstacle',dt);
+      if(this.ethon.event_manager.happens('spawn_obstacle')) {
+        this.obstacles.push(new Obstacle(rand(30,600),-200, this.levels[this.level].speed));
+      }
     }
 
     // Check pause game condition
@@ -149,7 +146,9 @@ function Main(ethon) {
     // Check if player get damage
     if(this.ethon.player.state === PLAYER_HURT) {
       for(var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].vel = new Vector2D(0,0);
+        if(this.enemies[i].state === ENEMY_IDLE) {
+          this.enemies[i].vel = new Vector2D(0,0);
+        }
       }
 
       for(var i = 0; i < this.obstacles.length; i++) {
@@ -158,7 +157,9 @@ function Main(ethon) {
     }
     else {
       for(var i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].vel = new Vector2D(0,this.levels[this.level].speed);
+        if(this.enemies[i].state === ENEMY_IDLE) {
+          this.enemies[i].vel = new Vector2D(0,this.levels[this.level].speed);
+        }
       }
 
       for(var i = 0; i < this.obstacles.length; i++) {
