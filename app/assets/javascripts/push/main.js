@@ -95,7 +95,7 @@ function Main(ethon) {
     collision = null;
     for(var i = 0; i < this.obstacles.length; i++) {
       collision = cm.sprite_collision(this.ethon.player, this.obstacles[i]);
-      if(this.obstacles[i].update(dt) || collision) {
+      if(this.obstacles[i].update(dt)) {
         remove = i;
       }
       if(collision) {
@@ -103,7 +103,7 @@ function Main(ethon) {
       }
     }
     if(remove != null) {
-      this.enemies.splice(remove,1);
+      this.obstacles.splice(remove,1);
     }
 
     // Spawn enemies

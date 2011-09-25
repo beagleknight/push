@@ -44,9 +44,27 @@ $(document).ready(function() {
       this.event_manager.register('move_down', KEYBOARD, MINUS_S);
 
       this.event_manager.register('pause', KEYBOARD, ESCAPE);
+      this.event_manager.register('start', KEYBOARD, SPACE);
 
       this.player = new Player(350,500);
       this.score = 0;
+
+      //start game scene
+      this.scene_manager.add_scene('start', {
+        init: function() {
+        },
+        draw: function() {
+          this.ethon.render_manager.drawText("PUSH",280,300,'#000000');
+          this.ethon.render_manager.drawText("- press SPACE to start -",220,350,'#000000');
+        },
+        update: function(dt) {
+          if(this.ethon.event_manager.happens('start')) {
+            this.ethon.scene_manager.set_active('main');
+          }
+        }
+      });
+      // set active scene
+      this.scene_manager.set_active('start');
 
       //main scene 
       this.scene_manager.add_scene('main', new Main());
@@ -76,9 +94,6 @@ $(document).ready(function() {
           }
         }
       });
-
-      // set active scene
-      this.scene_manager.set_active('main');
     }
   });
 
