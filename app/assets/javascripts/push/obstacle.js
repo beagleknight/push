@@ -6,7 +6,7 @@ var OBSTACLE_IDLE = 0;
 
 Obstacle.prototype = new Object2D();
 
-function Obstacle(x,y) {
+function Obstacle(x,y,speed) {
   Object2D.call(this,x,y,80,80);
   this.collideWithCanvas = false;
   this.state = OBSTACLE_IDLE;
@@ -15,7 +15,7 @@ function Obstacle(x,y) {
   this.sprites = new Array();
   this.sprites[OBSTACLE_IDLE] = new Sprite('obstacle',this.w,this.h,0,0,1,0);
 
-  this.vel = new Vector2D(0,5);
+  this.vel = new Vector2D(0,speed);
 
   this.draw = function() {
     this.sprites[this.state].draw(this.pos);
