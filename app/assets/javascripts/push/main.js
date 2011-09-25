@@ -6,7 +6,7 @@ function Main(ethon) {
   this.ethon = Ethon.getInstance();
 
   this.init = function() {
-    this.time = 60;
+    this.ethon.time = 60;
 
     this.levels = new Array();
     this.levels[0] = { speed: 2, score: 0,   spawn_enemy_time: 5, spawn_obstacle_time: 4   }
@@ -27,10 +27,14 @@ function Main(ethon) {
 
     this.ethon.event_manager.register('spawn_enemy', TIMED, this.levels[0].spawn_enemy_time);
     this.ethon.event_manager.register('spawn_obstacle', TIMED, this.levels[0].spawn_obstacle_time);
+    
+    // Respawn first enemy and obstacle
+    this.enemies.push(new Enemy(rand(30,600),-200, rand(1,1000)%2 == 0, this.levels[this.level].speed));
+    this.obstacles.push(new Obstacle(rand(30,600),-200, this.levels[this.level].speed));
   };
   
   this.draw = function() { //render function
-    //this.background.draw();
+    this.background.draw();
     this.ethon.player.draw();
 
     // Draw enemies
@@ -49,7 +53,7 @@ function Main(ethon) {
     this.ethon.render_manager.drawText("Score: ",505,20,'#ffffff');
     this.ethon.render_manager.drawText(int_to_string(this.ethon.score,6),555,20,'#ffffff');
     this.ethon.render_manager.drawText("Time: ",505,40,'#ffffff');
-    this.ethon.render_manager.drawText(Math.round(this.time),565,40,'#ffffff');
+    this.ethon.render_manager.drawText(Math.round(this.ethon.time),565,40,'#ffffff');
     this.ethon.render_manager.drawText("Level: ",505,60,'#ffffff');
     this.ethon.render_manager.drawText(this.level,565,60,'#ffffff');
   };
@@ -75,14 +79,14 @@ function Main(ethon) {
         }
         else {
           this.ethon.score += 10;
-          this.time += 2;
+          this.ethon.time += 2;
         }
       }
     }
     if(remove != null) {
       if(!collision && this.enemies[remove].spike) {
         this.ethon.score += 10;
-        this.time += 2;
+        this.ethon.time += 2;
       }
       this.enemies.splice(remove,1);
     }
@@ -120,8 +124,8 @@ function Main(ethon) {
     }
 
     // Check game over condition
-    this.time -= dt;
-    if(this.ethon.player.health <= 0 || this.time <= 0) {
+    this.ethon.time -= dt;
+    if(this.ethon.player.health <= 0 || this.ethon.time <= 0) {
       this.ethon.scene_manager.set_active('game_over');
     }
 
@@ -145,6 +149,8 @@ function Main(ethon) {
       for(var i = 0; i < this.obstacles.length; i++) {
         this.obstacles[i].vel = new Vector2D(0,this.levels[this.level].speed);
       }
+
+      this.background.step_y = this.levels[this.level].speed;
     }
   };
 };

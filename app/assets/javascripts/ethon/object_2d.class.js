@@ -11,10 +11,8 @@ function Object2D(x,y,w,h) {
   this.w = w;
   this.h = h;
 
-  this.alive = true;
   this.collideWithCanvas = true;
-  this.drawBB = true;
-
+  this.drawBB = false;
 
   this.draw = function() {
     if(this.drawBB) {

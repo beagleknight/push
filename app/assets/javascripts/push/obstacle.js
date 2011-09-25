@@ -19,7 +19,6 @@ function Obstacle(x,y,speed) {
 
   this.draw = function() {
     this.sprites[this.state].draw(this.pos);
-    Obstacle.prototype.draw.call(this);
   };
 
   this.udpate = function(dt) {

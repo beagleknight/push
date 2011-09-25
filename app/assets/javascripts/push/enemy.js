@@ -28,7 +28,6 @@ function Enemy(x,y,spike,speed) {
 
   this.draw = function() {
     this.sprites[this.state].draw(this.pos);
-    Enemy.prototype.draw.call(this);
   };
 
   this.update = function(dt) {

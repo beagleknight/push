@@ -31,8 +31,6 @@ function Player(x,y) {
       this.sprites[this.state].draw(this.pos);
     }
 
-    Player.prototype.draw.call(this);
-
     for(var i = 0; i < this.max_health; i++) {
       this.ethon.render_manager.basicShape(CIRCLE_EMPTY,new Vector2D(570+i*25,620), 10,10, 10);
     }
@@ -80,6 +78,7 @@ function Player(x,y) {
       this.state = PLAYER_HURT;
       this.hurt_counter = 0;
       this.ethon.score -= 10;
+      this.ethon.time -= 5;
     }
   }
 };
