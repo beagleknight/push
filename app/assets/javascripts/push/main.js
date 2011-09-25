@@ -6,7 +6,9 @@ function Main(ethon) {
   this.ethon = Ethon.getInstance();
 
   this.init = function() {
+    this.ethon.score = 0;
     this.ethon.time = 60;
+    this.ethon.player.respawn();
 
     this.levels = new Array();
     this.levels[0] = { speed: 2, score: 0,   spawn_enemy_time: 5, spawn_obstacle_time: 4   }
@@ -34,7 +36,7 @@ function Main(ethon) {
   };
   
   this.draw = function() { //render function
-    this.background.draw();
+    //this.background.draw();
     this.ethon.player.draw();
 
     // Draw enemies
@@ -141,7 +143,20 @@ function Main(ethon) {
       this.ethon.event_manager.unregister('spawn_obstacle');
       this.ethon.event_manager.register('spawn_obstacle', TIMED, 
           this.levels[this.level].spawn_obstacle_time);
+      this.background.step_y = this.levels[this.level].speed;
+    }
 
+    // Check if player get damage
+    if(this.ethon.player.state === PLAYER_HURT) {
+      for(var i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].vel = new Vector2D(0,0);
+      }
+
+      for(var i = 0; i < this.obstacles.length; i++) {
+        this.obstacles[i].vel = new Vector2D(0,0);
+      }
+    }
+    else {
       for(var i = 0; i < this.enemies.length; i++) {
         this.enemies[i].vel = new Vector2D(0,this.levels[this.level].speed);
       }
@@ -149,8 +164,6 @@ function Main(ethon) {
       for(var i = 0; i < this.obstacles.length; i++) {
         this.obstacles[i].vel = new Vector2D(0,this.levels[this.level].speed);
       }
-
-      this.background.step_y = this.levels[this.level].speed;
     }
   };
 };

@@ -9,7 +9,9 @@ var PLAYER_HURT = 1;
 Player.prototype = new Object2D();
 
 function Player(x,y) {
-  Object2D.call(this,x,y,96,136);
+  Object2D.call(this,x,y,46,66);
+
+  this.initPos = new Vector2D(x,y);
 
   this.ethon = Ethon.getInstance();
   this.state = PLAYER_IDLE;
@@ -17,17 +19,17 @@ function Player(x,y) {
   this.max_health = 3;
 
   this.sprites = new Array();
-  this.sprites[PLAYER_IDLE] = new Sprite('player',this.w,this.h,0,0,2,2);
-  this.sprites[PLAYER_HURT] = new Sprite('player',this.w,this.h,0,0,2,2);
+  this.sprites[PLAYER_IDLE] = new Sprite('player',this.w,this.h,0,0,4,0.2);
+  this.sprites[PLAYER_HURT] = new Sprite('player_hurt',63,64,0,0,4,0.2);
 
   this.max_speed = 20;
 
   this.hurt_counter = 0;
-  this.hurt_time = 2;
+  this.hurt_time = 50;
 
   this.draw = function() {
     // Draw player
-    if(this.state === PLAYER_IDLE || (this.state === PLAYER_HURT && (Math.round(this.hurt_counter*1000) % 2  === 0))) {
+    if(this.state === PLAYER_IDLE || (this.state === PLAYER_HURT && (Math.round(this.hurt_counter) % 2  === 0))) {
       this.sprites[this.state].draw(this.pos);
     }
 
@@ -62,7 +64,7 @@ function Player(x,y) {
 
     // Check if player get damage
     if(this.state === PLAYER_HURT) {
-      this.hurt_counter += dt;
+      this.hurt_counter += 1;
 
       if(this.hurt_counter > this.hurt_time) {
         this.state = PLAYER_IDLE;
@@ -72,13 +74,22 @@ function Player(x,y) {
     Player.prototype.update.call(this,dt);
   };
 
-  this.hurt = function(dt) {
+  this.hurt = function() {
     if(this.state === PLAYER_IDLE) {
       this.health -= 1;
       this.state = PLAYER_HURT;
       this.hurt_counter = 0;
       this.ethon.score -= 10;
       this.ethon.time -= 5;
+      this.pos.y += 25;
     }
+  }
+
+  this.respawn = function() {
+    this.health = this.max_health;
+    this.pos.x = this.initPos.x;
+    this.pos.y = this.initPos.y;
+    this.state = PLAYER_IDLE;
+    this.hurt_counter = 0;
   }
 };

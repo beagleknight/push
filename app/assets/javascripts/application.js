@@ -34,6 +34,7 @@ $(document).ready(function() {
     path: '/images/push/',
     init: function() {
       this.texture_manager.add_texture('player','sprites/player.png');
+      this.texture_manager.add_texture('player_hurt','sprites/player_hurt.png');
       this.texture_manager.add_texture('enemy','sprites/child.png');
       this.texture_manager.add_texture('enemy_spike','sprites/evil_child.png');
       this.texture_manager.add_texture('obstacle','sprites/obstacle.png');
@@ -76,8 +77,13 @@ $(document).ready(function() {
         draw: function() {
           this.ethon.render_manager.drawText("Game over",280,300,'#000000');
           this.ethon.render_manager.drawText(int_to_string(this.ethon.score,6),280,320,'#000000');
+          this.ethon.render_manager.drawText("- press SPACE to start -",220,350,'#000000');
         },
         update: function(dt) {
+          if(this.ethon.event_manager.happens('start')) {
+            this.ethon.scene_manager.scenes.getItem('main').init();
+            this.ethon.scene_manager.set_active('main');
+          }
         }
       });
 
