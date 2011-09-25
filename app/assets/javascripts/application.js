@@ -25,6 +25,7 @@
 //= require push/main
 //= require push/player
 //= require push/enemy
+//= require push/obstacle
 
 //= require_self
 
@@ -35,6 +36,7 @@ $(document).ready(function() {
       this.texture_manager.add_texture('player','sprites/player.png');
       this.texture_manager.add_texture('enemy','sprites/child.png');
       this.texture_manager.add_texture('enemy_spike','sprites/evil_child.png');
+      this.texture_manager.add_texture('obstacle','sprites/obstacle.png');
 
       this.event_manager.register('move_left', KEYBOARD, MINUS_A);
       this.event_manager.register('move_right', KEYBOARD, MINUS_D);
@@ -48,6 +50,7 @@ $(document).ready(function() {
 
       //main scene 
       this.scene_manager.add_scene('main', new Main());
+
       //game over scene
       this.scene_manager.add_scene('game_over', {
         init: function() {
@@ -59,6 +62,7 @@ $(document).ready(function() {
         update: function(dt) {
         }
       });
+
       //pause scene
       this.scene_manager.add_scene('pause', {
         init: function() {

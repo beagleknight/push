@@ -9,11 +9,9 @@ Enemy.prototype = new Object2D();
 
 function Enemy(x,y,spike) {
   Object2D.call(this,x,y, 75.1, 93);
-  this.ethon = Ethon.getInstance();
   this.collideWithCanvas = false;
-
-  this.ethon = Ethon.getInstance();
   this.state = ENEMY_IDLE;
+  this.ethon = Ethon.getInstance();
 
   this.sprites = new Array();
 
