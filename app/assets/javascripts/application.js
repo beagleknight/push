@@ -22,6 +22,7 @@
 //= require ethon/button
 //= require ethon/ethon
 
+//= require push/config
 //= require push/main
 //= require push/player
 //= require push/enemy

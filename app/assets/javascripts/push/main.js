@@ -10,20 +10,13 @@ function Main(ethon) {
     this.ethon.time = 60;
     this.ethon.player.respawn();
 
-    this.levels = new Array();
-    this.levels[0] = { speed: 2, score: 0,   spawn_enemy_time: 5, spawn_obstacle_time: 4   }
-    this.levels[1] = { speed: 3, score: 50,  spawn_enemy_time: 4, spawn_obstacle_time: 3   }
-    this.levels[2] = { speed: 4, score: 100, spawn_enemy_time: 3, spawn_obstacle_time: 2   }
-
+    this.levels = CONFIG.levels;
     this.level = 0;
     
-    this.ethon.texture_manager.add_texture('background','sprites/background.png');
+    this.ethon.texture_manager.add_texture('background','sprites/tiles.png');
     this.background = new TileMap("background",40,20,32,32,0,this.levels[0].speed);
-    for(var i = 0; i < this.background.rows; i++) {
-      for(var j = 0; j < this.background.cols; j++) {
-        this.background.map[i][j] = rand(0,7); 
-      } 
-    }
+    this.background.map = CONFIG.map;
+
     this.enemies = new Array();
     this.obstacles = new Array();
 
@@ -36,7 +29,7 @@ function Main(ethon) {
   };
   
   this.draw = function() { //render function
-    //this.background.draw();
+    this.background.draw();
     this.ethon.player.draw();
 
     // Draw enemies
@@ -140,7 +133,6 @@ function Main(ethon) {
       this.ethon.event_manager.unregister('spawn_obstacle');
       this.ethon.event_manager.register('spawn_obstacle', TIMED, 
           this.levels[this.level].spawn_obstacle_time);
-      this.background.step_y = this.levels[this.level].speed;
     }
 
     // Check if player get damage
@@ -154,6 +146,7 @@ function Main(ethon) {
       for(var i = 0; i < this.obstacles.length; i++) {
         this.obstacles[i].vel = new Vector2D(0,0);
       }
+      this.background.step_y = 0;
     }
     else {
       for(var i = 0; i < this.enemies.length; i++) {
@@ -165,6 +158,7 @@ function Main(ethon) {
       for(var i = 0; i < this.obstacles.length; i++) {
         this.obstacles[i].vel = new Vector2D(0,this.levels[this.level].speed);
       }
+      this.background.step_y = this.levels[this.level].speed;
     }
   };
 };

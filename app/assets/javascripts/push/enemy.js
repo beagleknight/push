@@ -58,7 +58,7 @@ function Enemy(x,y,spike,speed) {
         this.ethon.score += 10;
         this.ethon.time += 2;
       }
-      this.vel = new Vector2D(rand(-30,30),-20);
+      this.vel = new Vector2D(rand(-15,15),-10);
       this.state = ENEMY_HURT;
     }
   }
